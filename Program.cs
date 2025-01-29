@@ -1,10 +1,11 @@
-﻿internal class Program
+﻿using Mission4;
+internal class Program
 {
     private static void Main(string[] args)
     {
         // welcome user to the game
         Console.WriteLine("Welcome to the game");
-
+        processBoard pb = new processBoard();
         // init 2d array with empty strings (3x3)
         string[,] gameBoard = new string[3, 3]
         {
@@ -12,6 +13,7 @@
             { "", "", "" },
             { "", "", "" }
         };
+
         // init player turn (state that stores whose turn it is)
         bool player1Turn = true;
         int row;
@@ -62,7 +64,6 @@
                 Console.WriteLine($"Player {(player1Turn ? "1" : "2")} wins!");
                 return; // end the game
             }
-
             Console.WriteLine("Current Game Board");
             CurrentBoard.printBoard();
         }
