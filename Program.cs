@@ -5,22 +5,25 @@ internal class Program
     {
         // welcome user to the game
         Console.WriteLine("Welcome to the game");
-        processBoard pb = new processBoard();
         // init 2d array with empty strings (3x3)
         string[,] gameBoard = new string[3, 3]
         {
-            { "", "", "" },
-            { "", "", "" },
-            { "", "", "" }
+            { " ", " ", " " },
+            { " ", " ", " " },
+            { " ", " ", " " }
         };
-
+        // show initial game board
+        ProcessBoard CurrentBoard = new ProcessBoard(gameBoard);
+        CurrentBoard.PrintBoard();
         // init player turn (state that stores whose turn it is)
-        bool player1Turn = true;
+        bool player1Turn;
         int row;
         int col;
+        int turn = 1;
 
-        while (true)
+        while (turn <= 9) // once turn is above 9 it is a draw
         {
+            player1Turn = (turn % 2 == 1); // sets whose turn it is
             // ask player for choice row then column
             Console.WriteLine($"Player {(player1Turn ? "1" : "2")}, enter your choice row (1-3): ");
             while (true)
@@ -30,14 +33,30 @@ internal class Program
                     row = int.Parse(Console.ReadLine());
                     if (row >= 1 && row <= 3)
                     {
-                        break;
+                        bool taken = true; // assume whole row is full until proven otherwise
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (gameBoard[row - 1, i] == " ") // iterate over the row to find an empty space
+                            {
+                                taken = false;
+                                break; // break out of the loop if you find an empty space
+                            }
+                        }
+                        if (!taken)
+                        {
+                            break;
+                        }
+                        else // whole row is full
+                        {
+                            Console.WriteLine("Row is full, choose another row.");
+                        }
                     }
                 }
-                catch
+                catch // empty catch block
                 {
                 }
                 Console.WriteLine("Invalid input. Please enter a row number 1 - 3.");
-            }// ask for choice column
+            }
             Console.WriteLine($"Player {(player1Turn ? "1" : "2")}, enter your choice column (1-3): ");
             while (true)
             {
@@ -46,7 +65,14 @@ internal class Program
                     col = int.Parse(Console.ReadLine());
                     if (col >= 1 && col <= 3)
                     {
-                        break;
+                        if (gameBoard[row - 1, col - 1] != " ")
+                        {
+                            Console.WriteLine("That space is taken, choose another column.");
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
                 catch
@@ -57,16 +83,20 @@ internal class Program
             // update the game board
             gameBoard[row - 1, col - 1] = player1Turn ? "X" : "O";
             // pass the updated board to the GameBoard class
-            processBoard CurrentBoard = new processBoard(gameBoard);
+            CurrentBoard = new ProcessBoard(gameBoard);
             // check for win (call method)
-            if (CurrentBoard.checkWin()) // CheckWin returns a boolean
+            if (CurrentBoard.CheckWin()) // CheckWin returns a boolean
             {
                 Console.WriteLine($"Player {(player1Turn ? "1" : "2")} wins!");
                 return; // end the game
             }
             Console.WriteLine("Current Game Board");
-            CurrentBoard.printBoard();
+            CurrentBoard.PrintBoard();
+            turn++; // increment turn
         }
-        
+        if (turn == 10)// if there is no winner by turn 10 it is a tie
+        {
+            Console.WriteLine("It's a tie!");
+        }
     }
 }
