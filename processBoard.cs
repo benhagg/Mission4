@@ -65,6 +65,27 @@ public class processBoard
             matchCount = 0;
         }
         // check columns
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            if (board[0, i] != " ")
+            {
+                checkValue = board[0, i];
+            }
+            
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[j, i] == checkValue)
+                {
+                    matchCount++;
+                }
+            }
+            if (matchCount >= 3)
+            {
+                result = true;
+            }
+
+            matchCount = 0;
+        }
         // check diagonal
         return result;
     }
