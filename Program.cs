@@ -48,7 +48,8 @@ internal class Program
             }
             Console.WriteLine("Invalid input. Please enter a column number 1 - 3.");
         }
-
+    
+        Console.WriteLine(pb.checkWin(gameBoard));
         // print the board (call method)
 
         // check for win (call method)

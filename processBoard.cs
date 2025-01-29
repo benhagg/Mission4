@@ -37,8 +37,35 @@ public class processBoard
         
     }
 
-    public bool checkWhen(string[,] board)
+    public bool checkWin(string[,] board)
     {
-        return false;
+        string checkValue = "";
+        int matchCount = 0;
+        bool result = false;
+        // check rows
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            if (board[i, 0] != " ")
+            {
+                checkValue = board[i, 0];
+            }
+            
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] == checkValue)
+                {
+                    matchCount++;
+                }
+            }
+            if (matchCount >= 3)
+            {
+                result = true;
+            }
+
+            matchCount = 0;
+        }
+        // check columns
+        // check diagonal
+        return result;
     }
 }
