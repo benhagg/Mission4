@@ -55,16 +55,16 @@
             // update the game board
             gameBoard[row - 1, col - 1] = player1Turn ? "X" : "O";
             // pass the updated board to the GameBoard class
-            GameBoard CurrentBoard = new GameBoard(gameBoard);
+            processBoard CurrentBoard = new processBoard(gameBoard);
             // check for win (call method)
-            if (CurrentBoard.CheckWin()) // CheckWin returns a boolean
+            if (CurrentBoard.checkWin()) // CheckWin returns a boolean
             {
                 Console.WriteLine($"Player {(player1Turn ? "1" : "2")} wins!");
                 return; // end the game
             }
 
             Console.WriteLine("Current Game Board");
-            CurrentBoard.PrintBoard();
+            CurrentBoard.printBoard();
         }
         
     }
